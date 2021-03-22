@@ -7,8 +7,8 @@ import click
 def cli(time, source):
     record = []
     records = []
-    target = open('result.ics', 'w')
-    with open(source, 'r+') as f:
+    target = open('./result.ics', 'w', encoding='utf-8')
+    with open(source, 'r+', encoding='utf-8') as f:
         lines = f.readlines()
         for index in range(len(lines)):
             if lines[index] == 'BEGIN:VEVENT\n':
