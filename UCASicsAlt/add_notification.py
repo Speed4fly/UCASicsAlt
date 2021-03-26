@@ -27,6 +27,19 @@ def cli(time, source):
         for index in range(len(records)):
             if records[index][1] == last_class_name:
                 cnt += 1
+                if cnt == 4:
+                    duration = 'DURATION:PT' + str(cnt * 50 + 20) + 'M\n'
+                    for index_lines in range(records[last_class_index][0], records[last_class_index][2]):
+                        if lines[index_lines][0:8] != 'DURATION':
+                            target.write(lines[index_lines])
+                        else:
+                            target.write(duration)
+                    target.write(
+                        'BEGIN:VALARM\nTRIGGER:-PT' + str(time) + 'M\nACTION:DISPLAY\nDESCRIPTION:\nEND:VALARM\n')
+                    target.write('END:VEVENT\n')
+                    cnt = 1
+                    last_class_name = records[index][1]
+                    last_class_index = index
             else:
                 if cnt < 3:
                     duration = 'DURATION:PT' + str(cnt * 50) + 'M\n'
